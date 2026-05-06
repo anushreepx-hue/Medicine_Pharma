@@ -5,5 +5,3 @@
 5, ORS Sachet, Time Pharma, 200, 20, 180, 124
 6, Meftol, Nepal, 70, 20, 20, 20
 7, Auyurvedic Honey, Nepal, 60, 60, 30, 10
-8, Pranish, Pranish, 40, 50, 20, 10
-9, new, new, 1, 1, 1, 1
