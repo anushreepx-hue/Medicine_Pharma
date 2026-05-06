@@ -1,4 +1,4 @@
-1, Paracetamol 500mg, Lomus, 700, 5, 45, 10
+1, Paracetamol 500mg, Lomus, 800, 5, 45, 10
 2, Cetirizine 10mg, Quest, 500, 4, 35, 12
 3, Amoxicillin 500mg, Nepal Remedies, 488, 12, 110, 15
 4, Pantoprazole 40mg, Deurali-Janta, 471, 7, 60, 8

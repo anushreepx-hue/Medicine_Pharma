@@ -50,7 +50,9 @@ def generate_sales_invoice(customer, items):
             f.write(f"{item['Name']:<40}{item['Quantity']:<10}{item['Rate']:<20}{item['Discount']:<10}{item['Total']:<20}\n")
             grand_total += item["Total"]
         f.write("-" * 120 + "\n")
-        f.write(f"{'VAT:':<80}{item['Vat Amount']:<20}\n")
+
+        total_vat = sum(i["Vat Amount"] for i in items)
+        f.write(f"{'VAT:':<80}{total_vat:<20}\n")
         f.write(f"{'Grand Total:':<80}{grand_total}\n")
 
     print("Invoice generated!")

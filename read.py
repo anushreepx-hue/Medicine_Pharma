@@ -5,7 +5,7 @@ def read_data():
         for line in file:
             parts = line.strip().split(",")
             parts = [part.strip() for part in parts]
-            if not line:
+            if not line.strip():
                 continue
 
             records = {
@@ -15,7 +15,7 @@ def read_data():
                     "Quantity":parts[3],
                     "RatePerTablet":parts[4],
                     "RatePerStrip":parts[5],
-                    "NumberInOneStrip":parts[6],}
+                    "TabletPerStrip":parts[6],}
 
             data.append(records)
 
@@ -24,7 +24,7 @@ def read_data():
     print(f"{"S.N.":<5}{'Name':<25} {'Brand':<20} {'Quanty':<20} {'Rate per Tablet':<20} {'Rate per Strip':<20} {'Tablet Per Strip':<20}")
     print("-" * 140)
     for i in data:
-        print(f"{i['S.N.']:<5} {i['Name']:<25} {i['Brand']:<20} {i['Quantity']:<20} {i['RatePerTablet']:<20} {i['RatePerStrip']:<20} {i['NumberInOneStrip']:<20}")
+        print(f"{i['S.N.']:<5} {i['Name']:<25} {i['Brand']:<20} {i['Quantity']:<20} {i['RatePerTablet']:<20} {i['RatePerStrip']:<20} {i['TabletPerStrip']:<20}")
 
     print("-" * 140)
 
