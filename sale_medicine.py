@@ -47,13 +47,15 @@ def make_medicine_sales():
 
         price = med["RatePerTablet"] * qty
         final_price = price - (price * discount)
+        final_price_with_vat = add_vat(final_price)
 
         bill_items.append({
             "Name": med["Name"],
             "Quantity": qty,
             "Rate": med["RatePerTablet"],
-            "Total": final_price,
-            "Discount": discount * 100
+            "Total": final_price_with_vat,
+            "Discount": discount * 100,
+            "Vat Amount": final_price_with_vat - final_price
         })
 
         cont = input("Add more? (yes/no): ")
@@ -99,3 +101,9 @@ def save_inventory(data):
                 f"{item['S.N.']}, {item['Name']}, {item['Brand']}, {item['Quantity']}, "
                 f"{item['RatePerTablet']}, {item['RatePerStrip']}, {item['TabletPerStrip']}\n"
             )
+
+
+def add_vat(price):
+    vat_rate = 0.13
+    return price * (1 + vat_rate)
+
