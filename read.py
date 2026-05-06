@@ -19,12 +19,12 @@ def read_data():
 
             data.append(records)
 
-    print("---------Medical System---------")
+    print("-" * 60, "Medical Inventory", "-" * 60)
 
-    print(f"{"S.N.":<5}{'Name':<25} {'Brand':<20} {'Qty':<8} {'Tab Rate':<12} {'Strip Rate':<12} {'Per Strip':<10}")
-    print("-" * 95)
+    print(f"{"S.N.":<5}{'Name':<25} {'Brand':<20} {'Quanty':<20} {'Rate per Tablet':<20} {'Rate per Strip':<20} {'Tablet Per Strip':<20}")
+    print("-" * 140)
     for i in data:
-        print(f"{i['S.N.']:<5} {i['Name']:<25} {i['Brand']:<20} {i['Quantity']:<8} {i['RatePerTablet']:<12} {i['RatePerStrip']:<12} {i['NumberInOneStrip']:<10}")
+        print(f"{i['S.N.']:<5} {i['Name']:<25} {i['Brand']:<20} {i['Quantity']:<20} {i['RatePerTablet']:<20} {i['RatePerStrip']:<20} {i['NumberInOneStrip']:<20}")
 
-    print("-" * 95)
+    print("-" * 140)
 
