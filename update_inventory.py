@@ -1,4 +1,5 @@
 from sale_medicine import load_inventory, save_inventory
+from generate_invoice import generate_purchase_invoice
 
 def update_inventory():
     inventory = load_inventory()
@@ -9,9 +10,9 @@ def update_inventory():
         print(f"{i+1}. {med['Name']} ({med['Brand']}) - Stock: {med['Quantity']}")
 
     try:
-        choice = int(input("\nSelect medicine to update (number): ")) - 1
+        choice = int(input("\nSelect medicine to restock (number): ")) - 1
     except ValueError:
-        print("Invalid input. Must be a number.")
+        print("Invalid input.")
         return
 
     if choice < 0 or choice >= len(inventory):
@@ -24,7 +25,7 @@ def update_inventory():
     print(f"Current Stock: {selected_med['Quantity']}")
 
     try:
-        added_qty = int(input("Enter quantity to add: "))
+        added_qty = int(input("Enter quantity to ADD: "))
     except ValueError:
         print("Invalid input.")
         return
@@ -37,4 +38,14 @@ def update_inventory():
 
     save_inventory(inventory)
 
-    print(f"Stock updated successfully New stock: {selected_med['Quantity']}")
+    print(f"Stock updated successfully! New stock: {selected_med['Quantity']}")
+
+    vendor_name = input("Enter Vendor Name for invoice: ")
+
+    restock_record = [{
+        "Name": selected_med["Name"],
+        "Quantity": added_qty,
+        "RatePerStrip": selected_med["RatePerStrip"]
+    }]
+
+    generate_purchase_invoice(restock_record, vendor_name)

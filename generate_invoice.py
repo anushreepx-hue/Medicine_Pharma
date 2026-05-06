@@ -5,7 +5,11 @@ import datetime
 def generate_purchase_invoice(records, vendor_name):
     filename = create_file("purchase_" + vendor_name, "purchase_invoices")
     date = datetime.datetime.now().strftime("%d/%m/%Y")
+
     total = 0
+    total_vat = 0
+    vat_rate = 0.13
+
     with open(filename, "w") as file:
         file.write("============================================================================\n")
         file.write(f"Purchase Invoice\n")
@@ -14,21 +18,34 @@ def generate_purchase_invoice(records, vendor_name):
         file.write(f"Date: {date}\n")
         file.write("-" * 120 + "\n")
 
-        file.write(f"{'Name':<40}{'Qty':<20}{'Rate':<20}{'Total':<20}\n")
+        file.write(f"{'Name':<40}{'Qty':<10}{'Rate':<15}{'VAT':<15}{'Total':<20}\n")
         file.write("-" * 120 + "\n")
 
         for item in records:
             qty = int(item["Quantity"])
             rate = float(item["RatePerStrip"])
-            item_total = qty * rate
-            total += item_total
 
-            file.write(f"{item['Name']:<40}{qty:<20}{rate:<20}{item_total:<20}\n")
+            base_total = qty * rate
+            vat_amount = base_total * vat_rate
+            final_total = base_total + vat_amount
+
+            total += final_total
+            total_vat += vat_amount
+
+            file.write(
+                f"{item['Name']:<40}{qty:<10}{rate:<15}{vat_amount:<15.2f}{base_total:<20.2f}\n"
+            )
 
         file.write("-" * 120 + "\n")
-        file.write(f"{'Grand Total:':<80}{total}\n")
+        file.write(f"{'Total VAT:':<80}{total_vat:.2f}\n")
+        file.write(f"{'Grand Total (with VAT):':<80}{total:.2f}\n")
 
-    print("Purchase invoice generated!")
+    print("--------------------------------------------------------------------------------------------------------------------------")
+    print("====================================     INVOICE GENERATED     ====================================")
+    print("--------------------------------------------------------------------------------------------------------------------------")
+
+
+
 
 def generate_sales_invoice(customer, items):
     filename = create_file("sales_" + customer, "sales_invoices")
@@ -55,7 +72,9 @@ def generate_sales_invoice(customer, items):
         f.write(f"{'VAT:':<80}{total_vat:<20}\n")
         f.write(f"{'Grand Total:':<80}{grand_total}\n")
 
-    print("Invoice generated!")
+    print("--------------------------------------------------------------------------------------------------------------------------")
+    print("====================================     INVOICE GENERATED     ====================================")
+    print("--------------------------------------------------------------------------------------------------------------------------")
 
 
 
