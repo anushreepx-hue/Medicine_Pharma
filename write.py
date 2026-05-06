@@ -18,10 +18,30 @@ def add_medicienes():
         print("Enter the details of a new medicine:")
         name = input("Name: ")
         brand = input("Brand: ")
-        quantity = input("Quantity: ")
-        rate_per_tablet = input("Rate per Tablet: ")
-        rate_per_strip = input("Rate per Strip: ")
-        number_in_one_strip = input("Number in one Strip: ")
+        try:
+            quantity = int(input("Quantity: "))
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+            continue
+
+        try:
+            rate_per_tablet = int(input("Rate per Tablet: "))
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+            continue
+
+        try:
+            rate_per_strip = int(input("Rate per Strip: "))
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+            continue
+
+        try:
+            number_in_one_strip = int(input("Number in one Strip: "))
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+            continue
+
         new_record = {
             "S.N.": get_medicine_no(),
             "Name": name,\

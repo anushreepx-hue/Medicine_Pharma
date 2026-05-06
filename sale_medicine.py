@@ -38,7 +38,7 @@ def make_medicine_sales():
 
         med["Quantity"] -= qty
 
-        strip_size = med["NumberInOneStrip"]
+        strip_size = med["TabletPerStrip"]
         strips = qty // strip_size
 
         discount = 0
@@ -84,10 +84,10 @@ def load_inventory():
                 "S.N.": parts[0],
                 "Name": parts[1],
                 "Brand": parts[2],
-                "Quantity": parts[3],
-                "RatePerTablet": parts[4],
-                "RatePerStrip": parts[5],
-                "TabletPerStrip": parts[6],
+                "Quantity": int(parts[3]),
+                "RatePerTablet": int(parts[4]),
+                "RatePerStrip": int(parts[5]),
+                "TabletPerStrip": int(parts[6]),
             })
     return data
 

@@ -1,11 +1,8 @@
-1, Paracetamol 500mg, Lomus, 1200, 5, 45, 10
-2, Cetirizine 10mg, Quest, 800, 4, 35, 12
+1, Paracetamol 500mg, Lomus, 1198, 5, 45, 10
+2, Cetirizine 10mg, Quest, 798, 4, 35, 12
 3, Amoxicillin 500mg, Nepal Remedies, 500, 12, 110, 15
 4, Pantoprazole 40mg, Deurali-Janta, 600, 7, 60, 8
 5, ORS Sachet, Time Pharma, 300, 20, 180, 124
-6, Meftol, Nepal , 20, 50, 20, 10
+6, Meftol, Nepal, 20, 50, 20, 10
 7, Auyurvedic Honey, Nepal, 60, 60, 30, 10
-8, 2, 2, 2, 2, 2, 2
-9, test, 3, 3, 3, 3, 3
-10, new, new, newn\, e\3, 3, 3
-11, 2, 2, 2, 2, 22, 2
+8, test, 4, 4, 4, 4, 4
