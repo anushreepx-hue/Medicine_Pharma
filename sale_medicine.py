@@ -1,5 +1,6 @@
 from generate_invoice import generate_sales_invoice
-from read import read_data
+from write import save_inventory
+from read import load_inventory
 
 def make_medicine_sales():
 
@@ -70,37 +71,6 @@ def is_discount_applicable(strip):
     if strip >=2:
         return True
     return False
-
-
-def load_inventory():
-    data = []
-    with open("data.txt", "r") as file:
-        for line in file:
-            line = line.strip()
-            if not line:
-                continue
-
-            parts = [p.strip() for p in line.split(",")]
-
-            data.append({
-                "S.N.": parts[0],
-                "Name": parts[1],
-                "Brand": parts[2],
-                "Quantity": int(parts[3]),
-                "RatePerTablet": int(parts[4]),
-                "RatePerStrip": int(parts[5]),
-                "TabletPerStrip": int(parts[6]),
-            })
-    return data
-
-
-def save_inventory(data):
-    with open("data.txt", "w") as file:
-        for item in data:
-            file.write(
-                f"{item['S.N.']}, {item['Name']}, {item['Brand']}, {item['Quantity']}, "
-                f"{item['RatePerTablet']}, {item['RatePerStrip']}, {item['TabletPerStrip']}\n"
-            )
 
 
 def add_vat(price):

@@ -1,23 +1,5 @@
-
 def read_data():
-    data = []
-    with open("data.txt", "r") as file:
-        for line in file:
-            parts = line.strip().split(",")
-            parts = [part.strip() for part in parts]
-            if not line.strip():
-                continue
-
-            records = {
-                    "S.N.":parts[0],
-                    "Name":parts[1],
-                    "Brand":parts[2],
-                    "Quantity":parts[3],
-                    "RatePerTablet":parts[4],
-                    "RatePerStrip":parts[5],
-                    "TabletPerStrip":parts[6],}
-
-            data.append(records)
+    data = load_inventory()
 
     print("-" * 60, "Medical Inventory", "-" * 60)
 
@@ -28,3 +10,24 @@ def read_data():
 
     print("-" * 140)
 
+
+def load_inventory():
+    data = []
+    with open("data.txt", "r") as file:
+        for line in file:
+            line = line.strip()
+            if not line:
+                continue
+
+            parts = [p.strip() for p in line.split(",")]
+
+            data.append({
+                "S.N.": parts[0],
+                "Name": parts[1],
+                "Brand": parts[2],
+                "Quantity": int(parts[3]),
+                "RatePerTablet": int(parts[4]),
+                "RatePerStrip": int(parts[5]),
+                "TabletPerStrip": int(parts[6]),
+            })
+    return data

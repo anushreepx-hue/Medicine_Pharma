@@ -1,5 +1,6 @@
-from sale_medicine import load_inventory, save_inventory
 from generate_invoice import generate_purchase_invoice
+from read import load_inventory
+from write import save_inventory
 
 def update_inventory():
     inventory = load_inventory()
