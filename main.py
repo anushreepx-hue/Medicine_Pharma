@@ -1,6 +1,6 @@
 from read import read_data
-from sale_medicine import make_medicine_sales
 from write import add_medicienes
+from sale_medicine import make_medicine_sales
 
 def main():
     """read_data()"""
@@ -14,7 +14,11 @@ def main():
 
 
         try:
-            choice = int(input("Enter your choice"))
+            choice = int(input("Enter your choice: "))
+
+            if(choice < 1 or choice > 4):
+                print("Invalid choice. Please try again.")
+                continue
             match choice:
                 case 1 :
                     read_data()
@@ -22,6 +26,7 @@ def main():
                     add_medicienes()
                 case 3:
                     make_medicine_sales()
+
                 case 4:
                     print("Exiting the Medical System. Goodbye!")
                     break

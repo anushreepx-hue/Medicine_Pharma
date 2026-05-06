@@ -26,31 +26,27 @@ def generate_purchase_invoice(records, vendor_name):
 
     print("Purchase invoice generated!")
 
-def generate_sales_invoice(customer_name, records):
-    filename = create_file("sales_" + customer_name)
+def generate_sales_invoice(customer, items):
+    filename = create_file("sales_" + customer)
 
-    total = 0
-    with open(filename, "w") as file:
-        file.write("====== SALES INVOICE ======\n")
-        file.write(f"Customer: {customer_name}\n")
-        file.write("-" * 50 + "\n")
+    grand_total = 0
 
-        file.write(f"{'Name':<20}{'Qty':<10}{'Rate':<10}{'Total':<10}\n")
-        file.write("-" * 50 + "\n")
+    with open(filename, "w") as f:
+        f.write("====== SALES INVOICE ======\n")
+        f.write(f"Customer: {customer}\n")
+        f.write("-" * 60 + "\n")
 
-        for item in records:
-            qty = int(item["Quantity"])
-            rate = float(item["RatePerTablet"])
-            item_total = qty * rate
-            total += item_total
+        f.write(f"{'Name':<15}{'Qty':<5}{'Rate':<10}{'Disc%':<8}{'Total':<10}\n")
+        f.write("-" * 60 + "\n")
 
-            file.write(f"{item['Name']:<20}{qty:<10}{rate:<10}{item_total:<10}\n")
+        for item in items:
+            f.write(f"{item['Name']:<15}{item['Quantity']:<5}{item['Rate']:<10}{item['Discount']:<8}{item['Total']:<10}\n")
+            grand_total += item["Total"]
 
-        file.write("-" * 50 + "\n")
-        file.write(f"{'Grand Total:':<30}{total}\n")
+        f.write("-" * 60 + "\n")
+        f.write(f"{'Grand Total:':<40}{grand_total}\n")
 
-    print("Sales invoice generated!")
-
+    print("Invoice generated!")
 
 
 
