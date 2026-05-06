@@ -13,9 +13,9 @@ def make_medicine_sales():
         for i, med in enumerate(inventory):
             print(f"{i+1}. {med['Name']} ({med['Brand']}) - Stock: {med['Quantity']}")
 
-        try:                                                          # ← add this
+        try:
             choice = int(input("Select medicine (number): ")) - 1
-        except ValueError:                                           # ← catch locally
+        except ValueError:
             print("Invalid choice. Invalid input. Please enter a number.")
             continue
 
@@ -25,9 +25,9 @@ def make_medicine_sales():
 
         med = inventory[choice]
 
-        try:                                                          # ← add this
+        try:
             qty = int(input("Enter quantity (tablets): "))
-        except ValueError:                                           # ← catch locally
+        except ValueError:
             print("Invalid input. Please enter a number.")
             continue
 
@@ -43,7 +43,7 @@ def make_medicine_sales():
 
         discount = 0
         if is_discount_applicable(strips):
-            discount = 0.1   # 10%
+            discount = 0.05
 
         price = med["RatePerTablet"] * qty
         final_price = price - (price * discount)
