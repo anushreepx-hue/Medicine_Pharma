@@ -1,93 +1,107 @@
 from generate_invoice import generate_purchase_invoice
 from read import load_inventory
+from generate_invoice import generate_purchase_invoice
 
 def add_medicienes():
     all_records = load_inventory()
     session_records = []
 
-    print("Enter the name of the vendor:")
-    vendor_name = input("Vendor Name:")
-
     while True:
+        # ---------------- Vendor name validation ----------------
+        while True:
+            vendor_name = input("Vendor Name: ").strip()
+            if vendor_name:
+                break
+            print("Vendor name cannot be empty.")
+
         print("-" * 50)
 
-        print("Enter the details of a new medicine:")
-        name = input("Name: ")
-        brand = input("Brand: ")
+        # ---------------- Medicine name validation ----------------
+        while True:
+            name = input("Name: ").strip()
+            if name:
+                break
+            print("Name cannot be empty.")
 
-        try:
-            number_in_one_strip = int(input("Number in one Strip: "))
-        except ValueError:
-            print("Invalid input. Please enter a number.")
-            continue
+        while True:
+            brand = input("Brand: ").strip()
+            if brand:
+                break
+            print("Brand cannot be empty.")
 
+        # ---------------- Strip info validation ----------------
+        while True:
+            try:
+                number_in_one_strip = int(input("Number in one Strip: "))
+                if number_in_one_strip > 0:
+                    break
+                print("Must be greater than 0.")
+            except ValueError:
+                print("Invalid input. Please enter a number.")
 
-        print("\nStock by:")
-        print("1. Tablet")
-        print("2. Strip")
+        # ---------------- Stock type validation ----------------
+        while True:
+            try:
+                stock_type = int(input("\nChoose stock type (1: Tablet, 2: Strip): "))
+                if stock_type in (1, 2):
+                    break
+                print("Choose only 1 or 2.")
+            except ValueError:
+                print("Invalid input.")
 
-        try:
-            stock_type = int(input("Choose option: "))
-        except ValueError:
-            print("Invalid input.")
-            continue
-
-
+        # ---------------- Quantity validation ----------------
         if stock_type == 1:
-            try:
-                quantity = int(input("Quantity (tablets): "))
-            except ValueError:
-                print("Invalid input.")
-                continue
+            while True:
+                try:
+                    quantity = int(input("Quantity (tablets): "))
+                    if quantity > 0:
+                        break
+                    print("Must be greater than 0.")
+                except ValueError:
+                    print("Invalid input.")
 
-        elif stock_type == 2:
-            try:
-                strip_quantity = int(input("Quantity (strips): "))
-            except ValueError:
-                print("Invalid input.")
-                continue
+        else:
+            while True:
+                try:
+                    strip_quantity = int(input("Quantity (strips): "))
+                    if strip_quantity > 0:
+                        break
+                    print("Must be greater than 0.")
+                except ValueError:
+                    print("Invalid input.")
 
             quantity = strip_quantity * number_in_one_strip
 
-        else:
-            print("Invalid option.")
-            continue
+        # ---------------- Rate validation ----------------
+        while True:
+            try:
+                rate_per_tablet = int(input("Rate per Tablet: "))
+                if rate_per_tablet >= 0:
+                    break
+                print("Rate cannot be negative.")
+            except ValueError:
+                print("Invalid input. Please enter a number.")
 
-        try:
-            rate_per_tablet = int(input("Rate per Tablet: "))
-        except ValueError:
-            print("Invalid input. Please enter a number.")
-            continue
+        while True:
+            try:
+                rate_per_strip = int(input("Rate per Strip: "))
+                if rate_per_strip >= 0:
+                    break
+                print("Rate cannot be negative.")
+            except ValueError:
+                print("Invalid input. Please enter a number.")
 
-        try:
-            rate_per_strip = int(input("Rate per Strip: "))
-        except ValueError:
-            print("Invalid input. Please enter a number.")
-            continue
-
-        # try:
-        #     number_in_one_strip = int(input("Number in one Strip: "))
-        # except ValueError:
-        #     print("Invalid input. Please enter a number.")
-        #     continue
-
+        # ---------------- Check existing medicine ----------------
         found = False
 
         for medicine in all_records:
             if medicine["Name"].lower() == name.lower() and medicine["Brand"].lower() == brand.lower():
-                print("Medicine with this name and brand already exists.")
+                print("Medicine already exists. Updating stock...")
 
                 medicine["Quantity"] += quantity
-                print(f"Quantity updated to {medicine['Quantity']}")
-
                 medicine["RatePerTablet"] = rate_per_tablet
-                print(f"Rate per tablet updated to {medicine['RatePerTablet']}")
-
                 medicine["RatePerStrip"] = rate_per_strip
-                print(f"Rate per strip updated to {medicine['RatePerStrip']}")
-
                 medicine["TabletPerStrip"] = number_in_one_strip
-                print(f"Number in one strip updated to {medicine['TabletPerStrip']}")
 
                 session_records.append({
                     "Name": medicine["Name"],
@@ -98,16 +112,18 @@ def add_medicienes():
                 found = True
                 break
 
+        # ---------------- New medicine ----------------
         if not found:
             new_record = {
                 "S.N.": get_medicine_no(),
-                "Name": name,\
+                "Name": name,
                 "Brand": brand,
                 "Quantity": quantity,
                 "RatePerTablet": rate_per_tablet,
                 "RatePerStrip": rate_per_strip,
                 "TabletPerStrip": number_in_one_strip,
             }
+
             all_records.append(new_record)
 
             session_records.append({
@@ -116,28 +132,19 @@ def add_medicienes():
                 "RatePerStrip": rate_per_strip
             })
 
+        # ---------------- Continue validation ----------------
+        while True:
+            is_continue = input("Add another medicine? (yes/no): ").strip().lower()
 
-        save_inventory(all_records)
-        is_continue = input("Do you want to add another medicine? (yes/no): ")
-        if is_continue.lower() == 'yes':
-            continue
-        elif is_continue.lower() == 'no':
-            break
-        else:
-            while True:
-                print("Invalid input. Please enter yes or no.")
-                is_continue = input("Do you want to add another medicine? (yes/no): ")
-                if is_continue.lower() == 'yes':
-                    continue
-                elif is_continue.lower() == 'no':
-                    break
-                else:
-                    continue
-            break
-
-    if session_records:
-        generate_purchase_invoice(session_records, vendor_name)
-
+            if is_continue == "yes":
+                break
+            elif is_continue == "no":
+                save_inventory(all_records)
+                if session_records:
+                    generate_purchase_invoice(session_records, vendor_name)
+                return
+            else:
+                print("Please enter only yes or no.")
 
 def get_medicine_no():
     with open("data.txt", "r") as file:

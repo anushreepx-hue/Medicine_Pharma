@@ -27,6 +27,7 @@ def update_inventory():
 
     try:
         added_qty = int(input("Enter quantity to ADD: "))
+
     except ValueError:
         print("Invalid input.")
         return
