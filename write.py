@@ -128,6 +128,7 @@ def add_medicienes():
 
             session_records.append({
                 "Name": new_record["Name"],
+                "Brand": new_record["Brand"],
                 "Quantity": quantity,
                 "RatePerStrip": rate_per_strip
             })

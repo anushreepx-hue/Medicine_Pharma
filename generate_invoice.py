@@ -18,7 +18,7 @@ def generate_purchase_invoice(records, vendor_name):
         file.write(f"Date: {date}\n")
         file.write("-" * 120 + "\n")
 
-        file.write(f"{'Name':<40}{'Qty':<10}{'Rate':<15}{'VAT':<15}{'Total':<20}\n")
+        file.write(f"{'Name':<40}{'Brand':<20}{'Qty':<10}{'Rate':<15}{'VAT':<15}{'Total':<20}\n")
         file.write("-" * 120 + "\n")
 
         for item in records:
@@ -33,7 +33,7 @@ def generate_purchase_invoice(records, vendor_name):
             total_vat += vat_amount
 
             file.write(
-                f"{item['Name']:<40}{qty:<10}{rate:<15}{vat_amount:<15.2f}{base_total:<20.2f}\n"
+                f"{item['Name']:<40}{item['Brand']:<20}{qty:<10}{rate:<15}{vat_amount:<15.2f}{base_total:<20.2f}\n"
             )
 
         file.write("-" * 120 + "\n")
@@ -60,11 +60,11 @@ def generate_sales_invoice(customer, items):
         f.write(f"Date: {date}\n")
         f.write("-" * 120 + "\n")
 
-        f.write(f"{'Name':<40}{'Qty':<10}{'Rate':<20}{'Disc%':<10}{'Total':<20}\n")
+        f.write(f"{'Name':<40}{'Brand':<20}{'Qty':<10}{'Rate':<20}{'Disc%':<10}{'Total':<20}\n")
         f.write("-" * 120 + "\n")
 
         for item in items:
-            f.write(f"{item['Name']:<40}{item['Quantity']:<10}{item['Rate']:<20}{item['Discount']:<10}{item['Total']:<20}\n")
+            f.write(f"{item['Name']:<40}{item['Brand']:<20}{item['Quantity']:<10}{item['Rate']:<20}{item['Discount']:<10}{item['Total']:<20}\n")
             grand_total += item["Total"]
         f.write("-" * 120 + "\n")
 

@@ -74,9 +74,11 @@ def make_medicine_sales():
         price = med["RatePerTablet"] * qty
         final_price = price - (price * discount)
         final_price_with_vat = add_vat(final_price)
+        
 
         bill_items.append({
             "Name": med["Name"],
+            "Brand": med["Brand"],
             "Quantity": qty,
             "Rate": med["RatePerTablet"],
             "Total": final_price_with_vat,
