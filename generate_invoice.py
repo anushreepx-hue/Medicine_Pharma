@@ -3,6 +3,10 @@ import datetime
 
 
 def generate_purchase_invoice(records, vendor_name):
+    """
+    Generates a purchase invoice file for newly added
+    or restocked medicines.
+    """
     filename = create_file("purchase_" + vendor_name, "purchase_invoices")
     date = datetime.datetime.now().strftime("%d/%m/%Y")
 
@@ -18,6 +22,7 @@ def generate_purchase_invoice(records, vendor_name):
         file.write(f"Date: {date}\n")
         file.write("-" * 120 + "\n")
 
+        # Invoice table headings
         file.write(f"{'Name':<40}{'Brand':<20}{'Qty':<10}{'Rate':<15}{'VAT':<15}{'Total':<20}\n")
         file.write("-" * 120 + "\n")
 
@@ -25,6 +30,7 @@ def generate_purchase_invoice(records, vendor_name):
             qty = int(item["Quantity"])
             rate = float(item["RatePerStrip"])
 
+            # Price calculations
             base_total = qty * rate
             vat_amount = base_total * vat_rate
             final_total = base_total + vat_amount
@@ -32,26 +38,29 @@ def generate_purchase_invoice(records, vendor_name):
             total += final_total
             total_vat += vat_amount
 
+            # Write item details to invoice
             file.write(
                 f"{item['Name']:<40}{item['Brand']:<20}{qty:<10}{rate:<15}{vat_amount:<15.2f}{base_total:<20.2f}\n"
             )
 
         file.write("-" * 120 + "\n")
-        file.write(f"{'Total VAT:':<80}{total_vat:.2f}\n")
-        file.write(f"{'Grand Total (with VAT):':<80}{total:.2f}\n")
+        file.write(f"{'Total VAT:':<100}{total_vat:.2f}\n")
+        file.write(f"{'Grand Total (with VAT):':<100}{total:.2f}\n")
 
     print("--------------------------------------------------------------------------------------------------------------------------")
     print("====================================     INVOICE GENERATED     ====================================")
     print("--------------------------------------------------------------------------------------------------------------------------")
 
 
-
-
 def generate_sales_invoice(customer, items):
+    """
+    Generates a sales invoice file after medicine sales.
+    """
     filename = create_file("sales_" + customer, "sales_invoices")
 
     grand_total = 0
     date = datetime.datetime.now().strftime("%d/%m/%Y")
+
     with open(filename, "w") as f:
         f.write("============================================================================\n")
         f.write(f"Sales Invoice\n")
@@ -60,34 +69,47 @@ def generate_sales_invoice(customer, items):
         f.write(f"Date: {date}\n")
         f.write("-" * 120 + "\n")
 
+        # Invoice table headings
         f.write(f"{'Name':<40}{'Brand':<20}{'Qty':<10}{'Rate':<20}{'Disc%':<10}{'Total':<20}\n")
         f.write("-" * 120 + "\n")
 
+        # Write sold item details
         for item in items:
-            f.write(f"{item['Name']:<40}{item['Brand']:<20}{item['Quantity']:<10}{item['Rate']:<20}{item['Discount']:<10}{item['Total']:<20}\n")
+            f.write(
+                f"{item['Name']:<40}{item['Brand']:<20}{item['Quantity']:<10}{item['Rate']:<20}{item['Discount']:<10}{item['Total']:<20}\n"
+            )
+
             grand_total += item["Total"]
+
         f.write("-" * 120 + "\n")
 
+        # Calculate and display VAT amount
         total_vat = sum(i["Vat Amount"] for i in items)
-        f.write(f"{'VAT:':<80}{total_vat:<20}\n")
-        f.write(f"{'Grand Total:':<80}{grand_total}\n")
+
+        f.write(f"{'VAT:':<100}{total_vat:<20}\n")
+        f.write(f"{'Grand Total:':<100}{grand_total}\n")
 
     print("--------------------------------------------------------------------------------------------------------------------------")
     print("====================================     INVOICE GENERATED     ====================================")
     print("--------------------------------------------------------------------------------------------------------------------------")
 
 
-
 def create_file(user_name, folder):
+    """
+    Creates a unique invoice filename using
+    current date and time.
+    """
     os.makedirs(folder, exist_ok=True)
-    year= datetime.datetime.now().year
-    month= datetime.datetime.now().month
-    day= datetime.datetime.now().day
-    hour= datetime.datetime.now().hour
-    minute= datetime.datetime.now().minute
-    second= datetime.datetime.now().second
 
-    filename = user_name + "_" + str(year)+str(month)+str(day)+"_"+str(hour)+str(minute)+str(second) + ".txt"
+    year = datetime.datetime.now().year
+    month = datetime.datetime.now().month
+    day = datetime.datetime.now().day
+    hour = datetime.datetime.now().hour
+    minute = datetime.datetime.now().minute
+    second = datetime.datetime.now().second
+
+    filename = user_name + "_" + str(year) + str(month) + str(day) + "_" + str(hour) + str(minute) + str(second) + ".txt"
+
     full_path = os.path.join(folder, filename)
 
     return full_path
