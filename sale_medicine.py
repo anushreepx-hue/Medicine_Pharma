@@ -26,10 +26,36 @@ def make_medicine_sales():
 
         med = inventory[choice]
 
+        print("\nSell by:")
+        print("1. Tablet")
+        print("2. Strip")
+
         try:
-            qty = int(input("Enter quantity (tablets): "))
+            sale_type = int(input("Choose option: "))
         except ValueError:
-            print("Invalid input. Please enter a number.")
+            print("Invalid input.")
+            continue
+
+        strip_size = med["TabletPerStrip"]
+
+        if sale_type == 1:
+            try:
+                qty = int(input("Enter quantity (tablets): "))
+            except ValueError:
+                print("Invalid input.")
+                continue
+
+        elif sale_type == 2:
+            try:
+                strip_qty = int(input("Enter number of strips: "))
+            except ValueError:
+                print("Invalid input.")
+                continue
+
+            qty = strip_qty * strip_size
+
+        else:
+            print("Invalid option.")
             continue
 
 
@@ -39,7 +65,6 @@ def make_medicine_sales():
 
         med["Quantity"] -= qty
 
-        strip_size = med["TabletPerStrip"]
         strips = qty // strip_size
 
         discount = 0

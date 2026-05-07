@@ -16,9 +16,41 @@ def add_medicienes():
         brand = input("Brand: ")
 
         try:
-            quantity = int(input("Quantity: "))
+            number_in_one_strip = int(input("Number in one Strip: "))
         except ValueError:
             print("Invalid input. Please enter a number.")
+            continue
+
+
+        print("\nStock by:")
+        print("1. Tablet")
+        print("2. Strip")
+
+        try:
+            stock_type = int(input("Choose option: "))
+        except ValueError:
+            print("Invalid input.")
+            continue
+
+
+        if stock_type == 1:
+            try:
+                quantity = int(input("Quantity (tablets): "))
+            except ValueError:
+                print("Invalid input.")
+                continue
+
+        elif stock_type == 2:
+            try:
+                strip_quantity = int(input("Quantity (strips): "))
+            except ValueError:
+                print("Invalid input.")
+                continue
+
+            quantity = strip_quantity * number_in_one_strip
+
+        else:
+            print("Invalid option.")
             continue
 
         try:
@@ -33,11 +65,11 @@ def add_medicienes():
             print("Invalid input. Please enter a number.")
             continue
 
-        try:
-            number_in_one_strip = int(input("Number in one Strip: "))
-        except ValueError:
-            print("Invalid input. Please enter a number.")
-            continue
+        # try:
+        #     number_in_one_strip = int(input("Number in one Strip: "))
+        # except ValueError:
+        #     print("Invalid input. Please enter a number.")
+        #     continue
 
         found = False
 
